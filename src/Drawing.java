@@ -1,7 +1,7 @@
 /*
  * @Program: Homework 1 @ Lehman CS 711 Video Game Programming
  * @Description: Use the method drawLine to create a vertical, horizontal and a line at any angle
- * @Programmer: Jhon Sanchez @mozpit777
+ * @Programmer: M Sanchez @mozpit777
  * @Date: Aug 28 2019
  * 
  */
