@@ -11,21 +11,61 @@ import java.applet.Applet;
 
 
 @SuppressWarnings("serial")
-public class Drawing extends Applet{
+public class Drawing extends Applet implements Runnable
+{
 	Graphics g;
+	Thread t;
+
+	/* the init method of an applet is sort of the main mehtod of a regular function. If a class implements Runnable, it must have a
+		run mehtod.
+	 */
+	public void init(){
+		//create the thread
+		t = new Thread(this);
+
+		t.start();
+	}
+
+	public void run(){
+		while(true){
+
+			repaint();
+
+			try{
+				t.sleep(16);
+			}
+			catch(Exception x) {};
+
+
+		}
+	}
 
 	public void paint(Graphics g) {
 		this.g = g;
-		/*drawPoint(30, 50);*/
-		/*
+
+		int [] xpoints = {100, 200, 240, 110, 60};
+		int [] ypoints = {100, 80, 200, 210, 180};
+
+		//g.drawPolygon(xpoints, ypoints, 5);
+
+		drawPolyProf(xpoints, ypoints, 5);
+
+		/*drawPoint(30, 50);
 		drawHLine(300, 200, 600);
 		drawVline(500, 0, 500);
 		drawVLine(500, 0, 500);
 		drawLineAtAngle(50, 50, 50, 5);
 		drawRect(5, 200, 5, 100);
-		*/
-		drawLineProf(30, 50, 100, 190);
-		//drawRectProf(100, 200, 300, 100); //not working please revise
+		drawLineProf(30, 50, 100, 490);
+		drawRectProf(100, 200, 300, 100); */ //not working please revise
+	}
+
+	public void drawPolyProf(int xpoints[], int ypoints[], int n){
+		for(int i = 0; i < n-1; i++){
+			g.drawLine(xpoints[i], ypoints[i], xpoints[i+1], ypoints[i+1]);
+		}
+		g.drawLine(xpoints[n-1], ypoints[n-1], xpoints[0], ypoints[0]);
+
 	}
 
 	public void drawLineProf(int x1, int y1, int x2, int y2){
@@ -34,23 +74,30 @@ public class Drawing extends Applet{
 		int dy = y2 - y1;
 
 		if( dx == 0 ) drawVLine(x1, y1, y2);
-		else
-			if(dy == 0) drawHLine(x1, x2, y1);
+		else if(dy == 0) drawHLine(x1, x2, y1);
 		else
 		{
 			double m = (double)dy /dx;
+
+			if( m <= 1 ) {
+				//dividing ints is going to truncate a lot of information to calculate our slope
+				double y = y1;
+
+				for (int x = x1; x <= x2; x++) {
+					drawPoint(x, (int) y);
+
+					y += m;
+				}
+			}else{
+				double x = x1;
+
+				for(int y = y1; y <= y2; y++){
+					drawPoint((int)x, y);
+
+					x += 1/m;
+				}
+			}
 		}
-		//dividing ints is going to truncate a lot of information to calculate our slope
-		double m = (double) dy / dx;
-
-		double y = y1;
-
-		for(int x = x1; x <= x2; x++){
-			drawPoint(x, (int)y);
-
-			y += m;
-		}
-
 	}
 
 	public void drawRectProf(int x, int y, int w, int h){
@@ -113,5 +160,15 @@ public class Drawing extends Applet{
 	public int max(int a, int b){
 		if (a > b ) return a;
 		else		return b;
+	}
+
+	/*
+		When you copy an array you copy a reference to the array. This only happens with objects. It does not happen with primitive data.
+
+	* */
+	public void swap(int []list, int A, int B){
+		int temp = list[A];
+		list[A] = list[B];
+		list[B] = temp;
 	}
 }
