@@ -8,13 +8,18 @@
  */
 import java.awt.*;
 import java.applet.Applet;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 @SuppressWarnings("serial")
-public class Drawing extends Applet implements Runnable
+public class Drawing extends Applet implements Runnable, KeyListener
 {
 	Graphics g;
 	Thread t;
+    boolean upPressed = false;
+    boolean dnPressed = false;
+    boolean ltPressed = false;
+    boolean rtPressed = false;
 
 	/* the init method of an applet is sort of the main mehtod of a regular function. If a class implements Runnable, it must have a
 		run mehtod.
@@ -28,7 +33,16 @@ public class Drawing extends Applet implements Runnable
 
 	public void run(){
 		while(true){
+			/*
+			    These statements are executed asynchronously. This means the program won't stop if they dont have any values assigned to them.
+			    The method simply checks if the keys are pressed and if not, the program keeps on executing.
+			 */
+            if(upPressed);
+            if(dnPressed);
+            if(ltPressed);
+            if(rtPressed);
 
+            //call from program to the os asking the os to call paint method
 			repaint();
 
 			try{
@@ -39,6 +53,21 @@ public class Drawing extends Applet implements Runnable
 
 		}
 	}
+
+	public void keyPressed(KeyEvent e){
+        if(e.getKeyCode() == e.VK_UP) upPressed = true;
+        if(e.getKeyCode() == e.VK_DOWN) dnPressed = true;
+        if(e.getKeyCode() == e.VK_LEFT) ltPressed = true;
+        if(e.getKeyCode() == e.VK_RIGHT) rtPressed = true;
+    }
+
+    public void keyReleased(KeyEvent e){
+
+    }
+
+    public void keyTyped(KeyEvent e){
+
+    }
 
 	public void paint(Graphics g) {
 		this.g = g;
