@@ -11,11 +11,15 @@ import java.applet.Applet;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
 @SuppressWarnings("serial")
 public class Drawing extends Applet implements Runnable, KeyListener
 {
 	Graphics g;
 	Thread t;
+
+	Rect r = new Rect(10, 10, 100, 50);
+
     boolean upPressed = false;
     boolean dnPressed = false;
     boolean ltPressed = false;
@@ -37,15 +41,16 @@ public class Drawing extends Applet implements Runnable, KeyListener
 			    These statements are executed asynchronously. This means the program won't stop if they dont have any values assigned to them.
 			    The method simply checks if the keys are pressed and if not, the program keeps on executing.
 			 */
-            if(upPressed);
-            if(dnPressed);
-            if(ltPressed);
-            if(rtPressed);
+            if(upPressed) r.moveBy(0, -4);
+            if(dnPressed) r.moveBy(0, +4);;
+            if(ltPressed) r.moveBy(0, 0);;
+            if(rtPressed) r.moveBy(0, 0);;
 
             //call from program to the os asking the os to call paint method
 			repaint();
 
 			try{
+				
 				t.sleep(16);
 			}
 			catch(Exception x) {};
@@ -62,6 +67,10 @@ public class Drawing extends Applet implements Runnable, KeyListener
     }
 
     public void keyReleased(KeyEvent e){
+		if(e.getKeyCode() == e.VK_UP) upPressed = false;
+		if(e.getKeyCode() == e.VK_DOWN) dnPressed = false;
+		if(e.getKeyCode() == e.VK_LEFT) ltPressed = false;
+		if(e.getKeyCode() == e.VK_RIGHT) rtPressed = false;
 
     }
 
@@ -77,7 +86,7 @@ public class Drawing extends Applet implements Runnable, KeyListener
 
 		//g.drawPolygon(xpoints, ypoints, 5);
 
-		drawPolyProf(xpoints, ypoints, 5);
+		//drawPolyProf(xpoints, ypoints, 5);
 
 		/*drawPoint(30, 50);
 		drawHLine(300, 200, 600);
